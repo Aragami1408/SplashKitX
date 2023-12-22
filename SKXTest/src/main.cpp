@@ -1,6 +1,6 @@
 #include <test.h>
 
 int main(void) {
-    print_int(69420);
+    print_int(123456);
     return 0;
 }
