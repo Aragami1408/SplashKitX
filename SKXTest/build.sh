@@ -12,7 +12,7 @@ cFilenames=$(find . -type f -name "*.cpp")
 # echo "Files:" $cFilenames
 
 assembly="SKXTest"
-compilerFlags="-g -fdeclspec -fPIC -std=c++11" 
+compilerFlags="-g -fdeclspec -fPIC -std=c++17" 
 # -fms-extensions 
 # -Wall -Werror
 includeFlags="-Isrc -I../SKXCore/src/"

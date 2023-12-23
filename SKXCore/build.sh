@@ -10,7 +10,7 @@ cFilenames=$(find . -type f -name "*.cpp")
 # echo "Files:" $cFilenames
 
 assembly="SKXCore"
-compilerFlags="-g -shared -fdeclspec -fPIC -std=c++11"
+compilerFlags="-g -shared -fdeclspec -fPIC -std=c++17"
 # -fms-extensions 
 # -Wall -Werror
 includeFlags="-Isrc -I$VULKAN_SDK/include"
