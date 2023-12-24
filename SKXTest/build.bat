@@ -2,7 +2,6 @@ REM Build script for testbed
 @ECHO OFF
 SetLocal EnableDelayedExpansion
 
-call vcvarsall.bat x64
 SET cc=clang
 
 REM Get a list of all the .cpp files.
@@ -15,19 +14,11 @@ REM echo "Files:" %cFilenames%
 
 SET assembly=SKXTest
 
-if %cc% == cl.exe (
-		SET compilerFlags=/Zc:preprocessor /wd4090 /wd5105
-		SET includeFlags=/I.\src\ /I..\SKXCore\src\
-		SET linkerFlags=/LIBPATH:..\bin\ SKXCore.lib
-		SET defines=/D_DEBUG /DSKX_IMPORT
-		SET output=/Fe..\bin\%assembly%.exe
-)
-
 if %cc% == clang (
 		SET compilerFlags=-g
 		REM -Wall -Werror
-		SET includeFlags=-Isrc -I../SKXCore/src/
-		SET linkerFlags=-L../bin/ -lSKXCore
+		SET includeFlags=-Isrc -I../SKXEngine/src/
+		SET linkerFlags=-L../bin/ -lSKXEngine
 		SET defines=-D_DEBUG -DSKX_IMPORT
 		SET output=-o ../bin/%assembly%.exe
 )

@@ -5,7 +5,7 @@ ECHO "Building everything..."
 
 IF NOT EXIST bin mkdir bin
 
-PUSHD SKXCore
+PUSHD SKXEngine
 CALL build.bat
 POPD
 IF %ERRORLEVEL% NEQ 0 (echo Error:%ERRORLEVEL% && pause)

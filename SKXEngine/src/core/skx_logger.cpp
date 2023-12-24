@@ -23,16 +23,17 @@ void skx_log_output(SKXLogLevel level, const char *message, ...) {
 
     // Technically imposes a 32k character limit on a single log entry, but ...
     // DON'T DO THAT!
-    char out_message[32000];
+	const i32 msg_length = 32000;
+	char out_message[msg_length];
     memset(out_message, 0, sizeof(out_message));
 
     // Format original message
     __builtin_va_list arg_ptr;
     va_start(arg_ptr, message);
-    vsnprintf(out_message, 32000, message, arg_ptr);
+    vsnprintf(out_message, msg_length, message, arg_ptr);
     va_end(arg_ptr);
 
-    char out_message2[32000];
+    char out_message2[msg_length];
     sprintf(out_message2, "%s%s", level_strings[level], out_message);
 
     // Platform-specific output

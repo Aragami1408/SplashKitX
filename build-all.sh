@@ -5,7 +5,7 @@ set echo on
 echo "Building everything..."
 
 
-pushd SKXCore
+pushd SKXEngine
 source build.sh
 popd
 

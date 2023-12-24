@@ -1,5 +1,5 @@
 #!/bin/bash
-# Build script for SKXCore
+# Build script for SKXEngine
 set echo on
 
 mkdir -p ../bin
@@ -9,7 +9,7 @@ cFilenames=$(find . -type f -name "*.cpp")
 
 # echo "Files:" $cFilenames
 
-assembly="SKXCore"
+assembly="SKXEngine"
 compilerFlags="-g -shared -fdeclspec -fPIC -std=c++17"
 # -fms-extensions 
 # -Wall -Werror

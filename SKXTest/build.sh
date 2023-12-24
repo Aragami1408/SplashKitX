@@ -15,8 +15,8 @@ assembly="SKXTest"
 compilerFlags="-g -fdeclspec -fPIC -std=c++17" 
 # -fms-extensions 
 # -Wall -Werror
-includeFlags="-Isrc -I../SKXCore/src/"
-linkerFlags="-L../bin/ -lSKXCore -Wl,-rpath,."
+includeFlags="-Isrc -I../SKXEngine/src/"
+linkerFlags="-L../bin/ -lSKXEngine -Wl,-rpath,."
 defines="-D_DEBUG -DSKX_IMPORT"
 
 echo "Building $assembly..."

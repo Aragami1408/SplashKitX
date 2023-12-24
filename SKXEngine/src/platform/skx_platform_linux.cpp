@@ -3,6 +3,9 @@
 // Linux platform layer
 #if SKX_PLATFORM_LINUX || SKX_PLATFORM_APPLE
 
+// TODO: Implement OSX platform layer using Cocoa
+// NOTE: for OSX users, please install XQuartz before compiling
+
 #include <xcb/xcb.h>
 #include <X11/keysym.h>
 #include <X11/XKBlib.h>
