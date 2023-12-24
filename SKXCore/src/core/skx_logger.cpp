@@ -1,5 +1,6 @@
 #include "skx_logger.h"
 #include "skx_asserts.h"
+#include <platform/skx_platform.h>
 
 // TODO: temporary
 #include <stdio.h>
@@ -18,7 +19,7 @@ void skx_shutdown_logging() {
 
 void skx_log_output(SKXLogLevel level, const char *message, ...) {
     const char* level_strings[6] = {"[FATAL]: ", "[ERROR]: ", "[WARN]: ", "[INFO]: ", "[DEBUG]: ", "[TRACE]: "};
-    b8 is_error = level < 2;
+    b8 is_error = level < SKXLogLevel::LOG_LEVEL_WARN;
 
     // Technically imposes a 32k character limit on a single log entry, but ...
     // DON'T DO THAT!
@@ -32,9 +33,15 @@ void skx_log_output(SKXLogLevel level, const char *message, ...) {
     va_end(arg_ptr);
 
     char out_message2[32000];
-    sprintf(out_message2, "%s%s\n", level_strings[level], out_message);
+    sprintf(out_message2, "%s%s", level_strings[level], out_message);
 
-    printf("%s", out_message2);
+    // Platform-specific output
+    if (is_error) {
+        skx_console_write_error(out_message2, level);
+    }
+    else {
+        skx_console_write(out_message2, level);
+    }
 }
 
 void skx_report_assertion_failure(const char *expression, const char *message, const char *file, i32 line) {
