@@ -2,10 +2,10 @@
 
 #include <skx_defines.h>
 
-class SKXGame;
+struct SKXGame;
 
 // Application configuration
-class SKXApplicationConfig {
+struct SKXApplicationConfig {
 public:
 	// Window starting position x-axis, if applicable
 	i16 start_pos_x;

@@ -2,7 +2,7 @@
 
 #include <core/skx_application.h>
 
-class SKXGame {
+struct SKXGame {
 public:
 	// The application configuration
 	SKXApplicationConfig app_config;

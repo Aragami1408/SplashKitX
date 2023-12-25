@@ -3,7 +3,7 @@
 #include <skx_defines.h>
 #include <core/skx_logger.h>
 
-class SKXPlatformState {
+struct SKXPlatformState {
 public:
     void *internal_state;
 
