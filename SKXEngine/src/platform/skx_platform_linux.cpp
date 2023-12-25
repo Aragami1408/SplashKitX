@@ -212,53 +212,53 @@ b8 SKXPlatformState::pump_messages()
     return !quit_flagged; 
 }
 
-void *skx_allocate_memory(u64 size, b8 aligned)
+void *skx_platform_allocate_memory(u64 size, b8 aligned)
 {
     return malloc(size);
 }
 
-void skx_free_memory(void *block, b8 aligned)
+void skx_platform_free_memory(void *block, b8 aligned)
 {
     free(block);
 }
 
-void *skx_zero_memory(void *block, u64 size)
+void *skx_platform_zero_memory(void *block, u64 size)
 {
     return memset(block, 0, size);
 }
 
-void *skx_copy_memory(void* dest, const void* source, u64 size)
+void *skx_platform_copy_memory(void* dest, const void* source, u64 size)
 {
     return memcpy(dest, source, size);
 }
 
-void *skx_set_memory(void *dest, i32 value, u64 size)
+void *skx_platform_set_memory(void *dest, i32 value, u64 size)
 {
     return memset(dest, value, size);
 }
 
-void skx_console_write(const char *message, u8 color)
+void skx_platform_console_write(const char *message, u8 color)
 {
     // FATAL,ERROR,WARN,INFO,DEBUG,TRACE
     const char *color_strings[] = {"0;41", "1;31", "1;33", "1;32", "1;34", "1;30"};
     printf("\033[%sm%s\033[0m", color_strings[color], message);
 }
 
-void skx_console_write_error(const char *message, u8 color)
+void skx_platform_console_write_error(const char *message, u8 color)
 {
     // FATAL,ERROR,WARN,INFO,DEBUG,TRACE
     const char *color_strings[] = {"0;41", "1;31", "1;33", "1;32", "1;34", "1;30"};
     printf("\033[%sm%s\033[0m", color_strings[color], message);
 }
 
-f64 skx_get_absolute_time()
+f64 skx_platform_get_absolute_time()
 {
     struct timespec now;
     clock_gettime(CLOCK_MONOTONIC, &now);
     return now.tv_sec + now.tv_nsec * 0.000000001;
 }
 
-void skx_sleep(u64 ms)
+void skx_platform_sleep(u64 ms)
 {
 #if _POSIX_C_SOURCE >= 199309L
     struct timespec ts;

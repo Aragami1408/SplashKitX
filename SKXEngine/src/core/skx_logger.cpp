@@ -28,7 +28,11 @@ void skx_log_output(SKXLogLevel level, const char *message, ...) {
     memset(out_message, 0, sizeof(out_message));
 
     // Format original message
+#if _MSC_VER
+    va_list arg_ptr;
+#else
     __builtin_va_list arg_ptr;
+#endif
     va_start(arg_ptr, message);
     vsnprintf(out_message, msg_length, message, arg_ptr);
     va_end(arg_ptr);
@@ -38,10 +42,10 @@ void skx_log_output(SKXLogLevel level, const char *message, ...) {
 
     // Platform-specific output
     if (is_error) {
-        skx_console_write_error(out_message2, level);
+        skx_platform_console_write_error(out_message2, level);
     }
     else {
-        skx_console_write(out_message2, level);
+        skx_platform_console_write(out_message2, level);
     }
 }
 

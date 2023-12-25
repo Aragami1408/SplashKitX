@@ -1,8 +1,8 @@
 #include <skx_entry.h>
-// TODO: Remove this
-#include <platform/skx_platform.h>
+#include <core/skx_memory.h>
 
 #include "game.h"
+
 
 b8 skx_create_game(SKXGame *out_game) {
 	// Application configuration.
@@ -18,7 +18,7 @@ b8 skx_create_game(SKXGame *out_game) {
     out_game->on_resize = game_on_resize;
 
     // Create the game state
-    out_game->state = skx_allocate_memory(sizeof(GameState), FALSE);
+    out_game->state = skx_allocate_memory(sizeof(GameState), SKXMemoryTag::MEMORY_TAG_GAME);
 
     return TRUE;
 }

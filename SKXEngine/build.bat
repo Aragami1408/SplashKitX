@@ -19,7 +19,7 @@ if %cc% == clang (
 		SET includeFlags=-Isrc -I%VULKAN_SDK%/Include
 		SET linkerFlags=-luser32 -lvulkan-1 -L%VULKAN_SDK%/Lib
 		SET defines=-D_DEBUG -DSKX_EXPORT -D_CRT_SECURE_NO_WARNINGS
-		SET output= -o ../bin/%assembly%.lib
+		SET output= -o ../bin/%assembly%.dll
 )
 
 

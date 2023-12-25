@@ -2,13 +2,15 @@
 
 #include <core/skx_application.h>
 #include <core/skx_logger.h>
+#include <core/skx_memory.h>
+
 #include "skx_game_types.h"
 
 // Externally-defined function to create a game.
 extern b8 skx_create_game(SKXGame *out_game);
 
 int main(void) {
-
+	skx_initialize_memory();
     // Request the game instance from the application.
     SKXGame game_inst;
     if (!skx_create_game(&game_inst)) {
@@ -33,6 +35,8 @@ int main(void) {
 		SKX_FATAL("Application did not shutdown gracefully");
 		return 2;
 	}
+
+	skx_shutdown_memory();
 
     return 0;
 }

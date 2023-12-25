@@ -3,6 +3,7 @@
 
 #include <core/skx_logger.h>
 #include <platform/skx_platform.h>
+#include <core/skx_memory.h>
 
 struct ApplicationState {
 	SKXGame *game_inst;
@@ -65,6 +66,7 @@ b8 skx_application_create(SKXGame *game_inst) {
 }
 
 b8 skx_application_run() {
+	SKX_INFO(skx_get_memory_usage_str());
 	SKXPlatformState platform = app_state.platform;
 	while (app_state.is_running) {
 		if (!platform.pump_messages()) {
