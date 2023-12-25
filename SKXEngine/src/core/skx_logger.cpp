@@ -34,7 +34,7 @@ void skx_log_output(SKXLogLevel level, const char *message, ...) {
     va_end(arg_ptr);
 
     char out_message2[msg_length];
-    sprintf(out_message2, "%s%s", level_strings[level], out_message);
+    sprintf(out_message2, "%s%s\n", level_strings[level], out_message);
 
     // Platform-specific output
     if (is_error) {

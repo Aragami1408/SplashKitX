@@ -18,7 +18,7 @@
 #include <string.h>
 #include <unistd.h>
 
-struct linux_internal_state {
+struct LinuxInternalState {
     Display *display;
     xcb_connection_t *connection;
     xcb_window_t window;
@@ -30,8 +30,8 @@ struct linux_internal_state {
 b8 SKXPlatformState::startup(const char * application_name, i32 x, i32 y, i32 width, i32 height)
 {
     // Create the internal state
-    this->internal_state = malloc(sizeof(linux_internal_state));
-    linux_internal_state *state = (linux_internal_state *)this->internal_state;
+    this->internal_state = malloc(sizeof(LinuxInternalState));
+    LinuxInternalState *state = (LinuxInternalState *)this->internal_state;
 
     // Connect to X
     state->display = XOpenDisplay(NULL);
@@ -153,7 +153,7 @@ b8 SKXPlatformState::startup(const char * application_name, i32 x, i32 y, i32 wi
 void SKXPlatformState::shutdown()
 {
     // Simply cold-cast to the known type
-    linux_internal_state *state = (linux_internal_state *)this->internal_state;
+    LinuxInternalState *state = (LinuxInternalState *)this->internal_state;
 
     // Turn key repeats back on since this is global for the OS
     XAutoRepeatOn(state->display);
@@ -164,7 +164,7 @@ void SKXPlatformState::shutdown()
 b8 SKXPlatformState::pump_messages()
 {
     // Simply cold-cast to the known type
-    linux_internal_state *state = (linux_internal_state *)this->internal_state;
+    LinuxInternalState *state = (LinuxInternalState *)this->internal_state;
 
     xcb_generic_event_t *event;
     xcb_client_message_event_t *cm;
@@ -212,12 +212,12 @@ b8 SKXPlatformState::pump_messages()
     return !quit_flagged; 
 }
 
-void *skx_mem_allocate(u64 size, b8 aligned)
+void *skx_allocate_memory(u64 size, b8 aligned)
 {
     return malloc(size);
 }
 
-void skx_mem_free(void *block, b8 aligned)
+void skx_free_memory(void *block, b8 aligned)
 {
     free(block);
 }

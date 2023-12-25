@@ -5,7 +5,7 @@
 #include <windows.h>
 #include <windowsx.h> // param input extraction
 
-struct win32_internal_state {
+struct Win32InternalState {
 	HINSTANCE h_instance;
 	HWND hwnd;
 };
@@ -19,8 +19,8 @@ LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARA
 
 b8 SKXPlatformState::startup(const char * application_name, i32 x, i32 y, i32 width, i32 height)
 {
-	this->internal_state = malloc(sizeof(win32_internal_state));
-	win32_internal_state *state = (win32_internal_state *)this->internal_state;
+	this->internal_state = malloc(sizeof(Win32InternalState));
+	Win32InternalState *state = (Win32InternalState *)this->internal_state;
 
 	state->h_instance = GetModuleHandleA(0);
 
@@ -106,7 +106,7 @@ b8 SKXPlatformState::startup(const char * application_name, i32 x, i32 y, i32 wi
 void SKXPlatformState::shutdown()
 {
     // Simply cold-cast to the known type
-    win32_internal_state *state = (win32_internal_state *)this->internal_state;
+    Win32InternalState *state = (Win32InternalState *)this->internal_state;
 
 	if (state->hwnd) {
 		DestroyWindow(state->hwnd);
@@ -125,12 +125,12 @@ b8 SKXPlatformState::pump_messages()
 	return TRUE;
 }
 
-void *skx_mem_allocate(u64 size, b8 aligned)
+void *skx_allocate_memory(u64 size, b8 aligned)
 {
     return malloc(size);
 }
 
-void skx_mem_free(void *block, b8 aligned)
+void skx_free_memory(void *block, b8 aligned)
 {
     free(block);
 }
