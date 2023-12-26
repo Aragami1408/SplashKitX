@@ -24,14 +24,14 @@ struct SKXEventContext {
 };
 
 // Should return true of if handled
-typedef b8 (*PFN_on_event)(u16 code, void *sender, void *listener_inst, SKXEventContext data);
+typedef b8 (*PFN_on_event)(u16 code, void *sender, void *listener_inst, struct SKXEventContext data);
 
 b8 skx_event_initialize();
 void skx_event_shutdown();
 
 SKX_API b8 skx_event_register(u16 code, void *listener, PFN_on_event on_event);
 SKX_API b8 skx_event_unregister(u16 code, void *listener, PFN_on_event on_event);
-SKX_API b8 skx_event_fire(u16 code, void *sender, SKXEventContext context);
+SKX_API b8 skx_event_fire(u16 code, void *sender, struct SKXEventContext context);
 
 enum SKXSystemEventCode {
 	// Shuts the application down on the next frame.

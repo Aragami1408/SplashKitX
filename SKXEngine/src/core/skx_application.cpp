@@ -4,6 +4,7 @@
 #include <core/skx_logger.h>
 #include <platform/skx_platform.h>
 #include <core/skx_memory.h>
+#include <core/skx_event.h>
 
 struct ApplicationState {
 	SKXGame *game_inst;
@@ -16,7 +17,7 @@ struct ApplicationState {
 };
 
 static b8 initialized = FALSE;
-static ApplicationState app_state;
+ApplicationState app_state;
 
 b8 skx_application_create(SKXGame *game_inst) {
 	if (initialized) {
@@ -40,9 +41,14 @@ b8 skx_application_create(SKXGame *game_inst) {
 	app_state.is_running = TRUE;
 	app_state.is_suspended = FALSE;
 
-	SKXPlatformState platform = app_state.platform;
+	if (!skx_event_initialize()) {
+		SKX_ERROR("Event system failed initialization. Application cannot continue.");
+		return FALSE;
+	}
 
-	if (!platform.startup(
+	app_state.platform;
+
+	if (!app_state.platform.startup(
 				game_inst->app_config.name,
 				game_inst->app_config.start_pos_x,
 				game_inst->app_config.start_pos_y,
@@ -67,9 +73,8 @@ b8 skx_application_create(SKXGame *game_inst) {
 
 b8 skx_application_run() {
 	SKX_INFO(skx_get_memory_usage_str());
-	SKXPlatformState platform = app_state.platform;
 	while (app_state.is_running) {
-		if (!platform.pump_messages()) {
+		if (!app_state.platform.pump_messages()) {
 			app_state.is_running = FALSE;
 		}
 
@@ -91,7 +96,8 @@ b8 skx_application_run() {
 
 	app_state.is_running = FALSE;
 
-    platform.shutdown();
+	skx_event_shutdown();
+	app_state.platform.shutdown();
 
 	return TRUE;
 }

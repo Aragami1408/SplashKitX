@@ -172,7 +172,8 @@ b8 SKXPlatformState::pump_messages()
     b8 quit_flagged = FALSE;
 
     // Poll for events until null is returned
-    while ((event = xcb_poll_for_event(state->connection))) {
+    while (event != 0) {
+        event = xcb_poll_for_event(state->connection);
         if (event == 0) break;
 
         // Input events
