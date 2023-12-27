@@ -5,6 +5,7 @@
 #include <platform/skx_platform.h>
 #include <core/skx_memory.h>
 #include <core/skx_event.h>
+#include <core/skx_input.h>
 
 struct ApplicationState {
 	SKXGame *game_inst;
@@ -19,6 +20,50 @@ struct ApplicationState {
 static b8 initialized = FALSE;
 ApplicationState app_state;
 
+b8 application_on_event(u16 code, void *sender, void *listener_inst, SKXEventContext context) {
+	switch (code) {
+		case EVENT_CODE_APPLICATION_QUIT: {
+			SKX_INFO("EVENT_CODE_APPLICATION_QUIT received, shutting down.\n");
+			app_state.is_running = FALSE;
+			return TRUE;
+		} break;
+	}
+
+	return FALSE;
+}
+b8 application_on_key(u16 code, void *sender, void *listener_inst, SKXEventContext context) {
+	if (code == EVENT_CODE_KEY_PRESSED) {
+		u16 key_code = context.data.u16[0];
+		if (key_code == KEY_ESCAPE) {
+			// NOTE: Technically firing an event to itself, but there may be other listeners
+			SKXEventContext data = {};
+			skx_event_fire(EVENT_CODE_APPLICATION_QUIT, 0, data);
+
+			// Block anything else from processing this.
+			return TRUE;
+		}
+		else if (key_code == KEY_A) {
+			// Example on checking for a key
+			SKX_DEBUG("Explicit - A key pressed!");
+		}
+		else {
+			SKX_DEBUG("'%c' key pressed in window.", key_code);
+		}
+	}
+	else if (code == EVENT_CODE_KEY_RELEASED) {
+		u16 key_code = context.data.u16[0];
+		if (key_code == KEY_B) {
+			// Example on checking for a key
+			SKX_DEBUG("Explicit - B key released!");
+		}
+		else {
+			SKX_DEBUG("'%c' key released in window.", key_code);
+		}
+	}
+
+	return FALSE;
+}
+
 b8 skx_application_create(SKXGame *game_inst) {
 	if (initialized) {
 		SKX_ERROR("create() called more than once.");
@@ -29,6 +74,7 @@ b8 skx_application_create(SKXGame *game_inst) {
 
 	// Initialize subsystems.
 	skx_initialize_logging();
+	skx_input_initialize();
 
 	// TODO: Remove this
     SKX_FATAL("A test message: %f", 3.14f);
@@ -46,7 +92,9 @@ b8 skx_application_create(SKXGame *game_inst) {
 		return FALSE;
 	}
 
-	app_state.platform;
+	skx_event_register(EVENT_CODE_APPLICATION_QUIT, 0, application_on_event);
+	skx_event_register(EVENT_CODE_KEY_PRESSED, 0, application_on_key);
+	skx_event_register(EVENT_CODE_KEY_RELEASED, 0, application_on_key);
 
 	if (!app_state.platform.startup(
 				game_inst->app_config.name,
@@ -91,12 +139,24 @@ b8 skx_application_run() {
 				app_state.is_running = FALSE;
 				break;
 			}
+
+			// NOTE: Input update/state copying should always be handled
+			// after any input should be recorded; I.E. before this line.
+			// As a safety, input is the last thing to be updated before
+			// this frame ends.
+			skx_input_update(0);
 		}
 	}
 
 	app_state.is_running = FALSE;
 
+
+	skx_event_unregister(EVENT_CODE_APPLICATION_QUIT, 0, application_on_event);
+	skx_event_unregister(EVENT_CODE_KEY_PRESSED, 0, application_on_key);
+	skx_event_unregister(EVENT_CODE_KEY_RELEASED, 0, application_on_key);
 	skx_event_shutdown();
+	skx_input_shutdown();
+
 	app_state.platform.shutdown();
 
 	return TRUE;
