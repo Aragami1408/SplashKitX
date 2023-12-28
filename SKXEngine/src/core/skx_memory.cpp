@@ -1,6 +1,7 @@
 #include "skx_memory.h"
 
 #include <core/skx_logger.h>
+#include <core/skx_string.h>
 #include <platform/skx_platform.h>
 
 // TODO: Custom string lib
@@ -99,6 +100,6 @@ char *skx_get_memory_usage_str() {
         i32 length = snprintf(buffer + offset, 8000, "  %s: %.2f%s\n", memory_tag_strings[i], amount, unit);
         offset += length;
     }
-    char* out_string = strdup(buffer);
+    char* out_string = skx_string_duplicate(buffer);
     return out_string;
 }
