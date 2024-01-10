@@ -1,7 +1,7 @@
 
 <br/>
 <p align="center">
-  <h3 align="center">SplashKitX</h3>
+  <h2 align="center">SplashKitX</h3>
 
   <p align="center">
     Vulkan 3D Game engine with SplashKit API design in mind

@@ -1,2 +1,3 @@
 -ISKXEngine/src/
-
+-I/usr/local/opt/vulkan-headers/include
+-D_DEBUG
